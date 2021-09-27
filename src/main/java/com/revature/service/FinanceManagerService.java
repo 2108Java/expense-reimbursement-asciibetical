@@ -6,6 +6,6 @@ import com.revature.models.ReimbursementStatus;
 
 public interface FinanceManagerService extends EmployeeService{
 	List<Request> viewAllRequests();
-	boolean changeRequestStatus(int id, ReimbursementStatus status);
+	boolean updateRequestStatus(int id, ReimbursementStatus status);
 	
 }
