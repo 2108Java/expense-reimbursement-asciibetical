@@ -1,0 +1,11 @@
+package com.revature.service;
+
+import java.util.List;
+import com.revature.models.Request;
+import com.revature.models.ReimbursementStatus;
+
+public interface FinanceManagerService extends EmployeeService{
+	List<Request> viewAllRequests();
+	boolean changeRequestStatus(int id, ReimbursementStatus status);
+	
+}
