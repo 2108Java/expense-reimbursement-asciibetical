@@ -7,9 +7,10 @@ import com.revature.models.User;
 
 public interface EmployeeService {
 	User login(String username);
+	boolean checkIfUsernameExists(String username);
 	boolean authenticate(String username, String password);
 	boolean requestReimbursment(String username, ReimbursementType type, double amount, String description);
-	List<Request> viewPendingRequests(String username, ReimbursementStatus status);
+	List<Request> viewPendingRequests(String username);
 	List<Request> viewPastRequests(String username);
 	
 }

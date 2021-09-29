@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Request {
 
@@ -14,6 +15,10 @@ public class Request {
 	
 	public Request() {
 		this("placeholder", ReimbursementType.OTHER, 0.0, "placeholder");
+	}
+	
+	public Request(String username, ReimbursementType type, double amount) {
+		this(username, type, amount, null);
 	}
 	
 	public Request(String username, ReimbursementType type, double amount, String description) {
@@ -92,6 +97,21 @@ public class Request {
 	public String toString() {
 		return "Request [id=" + id + ", username=" + username + ", type=" + type + ", amount=" + amount
 				+ ", description=" + description + ", timestamp=" + timestamp + ", status=" + status + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Request other = (Request) obj;
+		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount)
+				&& Objects.equals(description, other.description) && id == other.id && status == other.status
+				&& Objects.equals(timestamp, other.timestamp) && type == other.type
+				&& Objects.equals(username, other.username);
 	}
 	
 	

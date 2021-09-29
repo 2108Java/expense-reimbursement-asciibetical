@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.Objects;
+
 public class User {
 
 	private String username;
@@ -64,8 +66,17 @@ public class User {
 		return "User [username=" + username + ", password=" + password + ", email=" + email + ", isFinanceManager="
 				+ isFinanceManager + "]";
 	}
-	
-	
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(email, other.email) && isFinanceManager == other.isFinanceManager
+				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
+	}
 }
