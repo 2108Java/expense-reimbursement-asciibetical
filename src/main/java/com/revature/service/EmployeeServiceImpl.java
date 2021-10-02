@@ -7,16 +7,17 @@ import com.revature.models.ReimbursementType;
 import com.revature.models.Request;
 import com.revature.models.User;
 import com.revature.repo.RequestDAO;
+import com.revature.repo.RequestDAOImpl;
 import com.revature.repo.UserDAO;
+import com.revature.repo.UserDAOImpl;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-	private RequestDAO rDao;
-	private UserDAO uDao;
+	private RequestDAO rDao = new RequestDAOImpl();
+	private UserDAO uDao = new UserDAOImpl();
 	
-	public EmployeeServiceImpl(UserDAO uDao, RequestDAO rDao) {
-		this.uDao = uDao;
-		this.rDao = rDao;
+	public EmployeeServiceImpl() {
+		
 	}
 	
 	@Override
