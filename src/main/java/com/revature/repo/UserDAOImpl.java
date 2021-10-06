@@ -13,7 +13,7 @@ public class UserDAOImpl implements UserDAO {
 	@SuppressWarnings("null")
 	@Override
 	public List<User> selectAllUsers() {
-		String sql = "SECECT * FROM users;";
+		String sql = "SELECT * FROM users;";
 		List<User> allUsers = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -35,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User selectUser(String username) {
-		String sql = "SECECT * FROM users WHERE user_username = ?;";
+		String sql = "SELECT * FROM users WHERE user_username = ?;";
 		User selectedUser = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);

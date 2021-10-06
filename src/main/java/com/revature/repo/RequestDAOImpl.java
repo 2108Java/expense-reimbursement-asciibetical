@@ -16,7 +16,7 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public Request selectRequestById(int id) {
-		String sql = "SECECT * FROM reimbursement WHERE id = ?";
+		String sql = "SELECT * FROM reimbursement WHERE id = ?";
 		Request selectedRequestById = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
@@ -45,7 +45,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectAllRequests() {
-		String sql = "SECECT * FROM reimbursement";
+		String sql = "SELECT * FROM reimbursement";
 		List<Request> allRequests = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
@@ -72,7 +72,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectRequestByUsernameAndStatus(String username, ReimbursementStatus status) {
-		String sql = "SECECT * FROM reimbursement WHERE user_username_fk = ? AND status = ?";
+		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND status = ?";
 		List<Request> selectedRequestByUsernameAndStatus = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
@@ -101,7 +101,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectPastRequestByUsername(String username) {
-		String sql = "SECECT * FROM reimbursement WHERE user_username_fk = ? AND status = past";
+		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND status = past";
 		List<Request> selectedPastRequestByUsername = null;
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
