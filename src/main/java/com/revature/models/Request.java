@@ -12,19 +12,19 @@ public class Request {
 	private String description;
 	private LocalDateTime timestamp;
 	private ReimbursementStatus status;
-	
+
 	public Request() {
 		this("placeholder", ReimbursementType.OTHER, 0.0, "placeholder");
 	}
-	
+
 	public Request(String username, ReimbursementType type, double amount) {
 		this(username, type, amount, null);
 	}
-	
+
 	public Request(String username, ReimbursementType type, double amount, String description) {
 		this(-1, username, type, amount, description, LocalDateTime.now(), ReimbursementStatus.PENDING);
 	}
-	
+
 	public Request(int id, String username, ReimbursementType type, double amount, String description,
 			LocalDateTime timestamp, ReimbursementStatus status) {
 		super();
@@ -113,6 +113,5 @@ public class Request {
 				&& Objects.equals(timestamp, other.timestamp) && type == other.type
 				&& Objects.equals(username, other.username);
 	}
-	
-	
+
 }
