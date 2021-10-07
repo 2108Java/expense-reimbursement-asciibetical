@@ -13,7 +13,7 @@ public class PropertiesParser {
 	static Map<String,String> dbDetails = new HashMap<>();
 	
 	public static void getProperties(){
-		
+		System.out.println("Parsing properties");
 		try {
 			FileReader reader = new FileReader("db.properties");
 			Properties dbProperites = new Properties();

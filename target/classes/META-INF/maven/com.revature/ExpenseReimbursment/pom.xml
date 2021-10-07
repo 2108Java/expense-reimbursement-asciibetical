@@ -25,6 +25,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+		<dependency>
 		    <groupId>io.javalin</groupId>
 		    <artifactId>javalin</artifactId>
 		    <version>3.13.11</version>

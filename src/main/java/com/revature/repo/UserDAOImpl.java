@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 
 public class UserDAOImpl implements UserDAO {
 
-	@SuppressWarnings("null")
 	@Override
 	public List<User> selectAllUsers() {
 		String sql = "SELECT * FROM users;";
-		List<User> allUsers = null;
+		List<User> allUsers = new ArrayList<User>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User selectUser(String username) {
 		String sql = "SELECT * FROM users WHERE user_username = ?;";
-		User selectedUser = null;
+		User selectedUser = new User();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -79,7 +79,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean insertUser(String username, String email) {
+	public boolean insertUser(String username, String email, String password) {
 		boolean success = false;
 		String sql = "INSERT INTO users(user_username,user_email,user_password,is_finance_manager) "
 				+ "VALUES( ?, ?, ?, ?);";
@@ -87,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
 			PreparedStatement insertStatement = conn.prepareStatement(sql);
 			insertStatement.setString(1, username);
 			insertStatement.setString(2, email);
-			insertStatement.setString(3, "password");
+			insertStatement.setString(3, password);
 			insertStatement.setBoolean(4, false);
 			insertStatement.execute();
 
