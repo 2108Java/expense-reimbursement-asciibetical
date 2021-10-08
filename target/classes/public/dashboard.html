@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col">
                         <label class="form-label h4">Amount of Expense</label>
-                        <div>$<input type="number" min="0.00" step=".01" placeholder="1,000.00" required /></div>
+                        <div>$<input type="number" id="request-amount" min="0.00" step=".01" placeholder="1,000.00" required /></div>
                     </div>
                 </div>
                 <div class="row">
@@ -88,7 +88,7 @@
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="past-table-body">
                         
                     </tbody>
                 </table>
@@ -114,7 +114,7 @@
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="pending-table-body">
                         
                     </tbody>
                 </table>
@@ -142,7 +142,7 @@
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="all-table-body">
                             
                         </tbody>
                     </table>
@@ -161,7 +161,7 @@
                     <div class="row">
                         <div class="col">
                             <label class="form-label h4">Reimbursment ID:</label>
-                        <div><input type="number" placeholder="0" required /></div>
+                        <div><input id="request-id" type="number" placeholder="0" required /></div>
                         </div>
                     </div>
                     <div class="row">
@@ -184,7 +184,7 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <!-- --> <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

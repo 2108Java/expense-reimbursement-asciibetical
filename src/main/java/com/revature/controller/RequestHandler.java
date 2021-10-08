@@ -5,7 +5,7 @@ import io.javalin.http.Context;
 
 public class RequestHandler {
 
-	private static boolean checkSession(Context ctx) {
+	public static boolean checkSession(Context ctx) {
 		if(ctx.sessionAttribute("isLoggedIn") != null && (Boolean) ctx.sessionAttribute("isLoggedIn")) {
 			return true;
 		}
@@ -17,12 +17,14 @@ public class RequestHandler {
 		EmployeeController employeeController = new EmployeeController();
 		FinanceManagerController managerController = new FinanceManagerController();
 		
+		managerController.initializeFakeData();
+		
 		app.get("/", ctx -> ctx.req.getRequestDispatcher("index.html").forward(ctx.req, ctx.res));
 		app.get("/login", ctx -> ctx.req.getRequestDispatcher("index.html").forward(ctx.req, ctx.res));
 		
 		app.post("/authenticate", ctx -> {employeeController.authenticate(ctx);});
 		
-		app.post("/invalidateSession", ctx -> {
+		app.post("/logout", ctx -> {
 			ctx.consumeSessionAttribute("user");
 			ctx.consumeSessionAttribute("isLoggedIn");
 			ctx.redirect("localhost:9000/");
@@ -34,6 +36,14 @@ public class RequestHandler {
 			} else {
 				ctx.redirect("localhost:9000/");
 			}
+		});
+		
+		app.post("/register", ctx -> {
+			
+		});
+		
+		app.put("/user", ctx -> {
+			
 		});
 		
 		app.post("/request", ctx -> {
@@ -62,15 +72,15 @@ public class RequestHandler {
 			}
 		});
 		
-		app.get("/reimbursements", ctx -> {
-			if(checkSession(ctx)) {
-				ctx.json(managerController.getAllReimbursements());
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
+		app.get("/all", ctx -> {
+//			if(checkSession(ctx)) {
+				ctx.json(managerController.getAllReimbursements(ctx));
+//			} else {
+//				ctx.redirect("localhost:9000/");
+//			}
 		});
 		
-		app.put("/update", ctx -> {
+		app.put("/request", ctx -> {
 			if(checkSession(ctx)) {
 				if(managerController.updateRequestStatus(ctx)) {
 					ctx.res.sendRedirect("localhost:9000/home");

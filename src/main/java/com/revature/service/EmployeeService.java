@@ -12,5 +12,6 @@ public interface EmployeeService {
 	boolean requestReimbursment(String username, ReimbursementType type, double amount, String description);
 	List<Request> viewPendingRequests(String username);
 	List<Request> viewPastRequests(String username);
-	
+	boolean createNewAccount(String username, String email);
+	boolean changePassword(String username, String newPassword);
 }

@@ -67,4 +67,16 @@ public class FinanceManagerServiceImpl implements FinanceManagerService {
 		return false;
 	}
 
+	@Override
+	public boolean createNewAccount(String username, String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changePassword(String username, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

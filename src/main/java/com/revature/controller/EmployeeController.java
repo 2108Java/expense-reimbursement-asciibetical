@@ -23,6 +23,7 @@ public class EmployeeController {
 		
 		if(eService.checkIfUsernameExists(username)) {
 			User user = eService.login(username);
+//			if(user.getUsername().equals("User") && user.getPassword().equals("password")) {
 			if(user.getUsername().equals(username) && user.getPassword().equals(password)) {
 				ctx.res.setStatus(200);
 				ctx.sessionAttribute("user", user);
@@ -33,6 +34,30 @@ public class EmployeeController {
 		}
 		
 		ctx.res.sendRedirect("/failedLogin");
+	}
+	
+	public boolean registerAccount(Context ctx) {
+		
+		String username = ctx.formParam("username");
+		String email = ctx.formParam("email");
+		
+		if(!eService.checkIfUsernameExists(username)) {
+			if(eService.createNewAccount(username, email)) {
+				ctx.res.setStatus(200);
+				return true;
+			} else {
+				ctx.res.setStatus(500);
+				return false;
+			}
+		} else {
+			ctx.res.setStatus(500);
+			return false;
+		}
+	}
+	
+	public boolean changePassword(Context ctx) {
+		//TODO:implement
+		return false;
 	}
 	
 	public boolean createNewRequest(Context ctx) {
