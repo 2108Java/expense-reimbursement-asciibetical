@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
@@ -17,7 +18,7 @@ public class RequestDAOImpl implements RequestDAO {
 	@Override
 	public Request selectRequestById(int id) {
 		String sql = "SELECT * FROM reimbursement WHERE id = ?";
-		Request selectedRequestById = null;
+		Request selectedRequestById = new Request();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -42,11 +43,10 @@ public class RequestDAOImpl implements RequestDAO {
 		return selectedRequestById;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectAllRequests() {
 		String sql = "SELECT * FROM reimbursement";
-		List<Request> allRequests = null;
+		List<Request> allRequests = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -69,11 +69,10 @@ public class RequestDAOImpl implements RequestDAO {
 		return allRequests;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectRequestByUsernameAndStatus(String username, ReimbursementStatus status) {
 		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND status = ?";
-		List<Request> selectedRequestByUsernameAndStatus = null;
+		List<Request> selectedRequestByUsernameAndStatus = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -98,11 +97,10 @@ public class RequestDAOImpl implements RequestDAO {
 		return selectedRequestByUsernameAndStatus;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public List<Request> selectPastRequestByUsername(String username) {
 		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND status = past";
-		List<Request> selectedPastRequestByUsername = null;
+		List<Request> selectedPastRequestByUsername = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
 

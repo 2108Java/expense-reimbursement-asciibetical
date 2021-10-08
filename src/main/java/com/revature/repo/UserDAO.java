@@ -9,9 +9,9 @@ public interface UserDAO {
 
 	boolean updatePassword(String username, String newPassword);
 
-	boolean insertUser(String username, String email);
-
 	boolean deleteUser(String username);
 
 	List<User> selectAllUsers();
+
+	boolean insertUser(String username, String email, String password);
 }

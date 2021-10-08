@@ -18,48 +18,48 @@ import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 import com.revature.models.Request;
 import com.revature.repo.RequestDAO;
-import com.revature.repo.UserDAO;
 
 public class FinanceManagerServiceTest {
 
 	@Mock
-	private UserDAO uDao;
-	@Mock
 	private RequestDAO rDao;
-	
+
 	private FinanceManagerService mService;
-	
+
 	@Before
 	public void setup() {
-		uDao = mock(UserDAO.class);
 		rDao = mock(RequestDAO.class);
-		
-		mService = new FinanceManagerServiceImpl(uDao, rDao);
+
+		mService = new FinanceManagerServiceImpl(rDao);
 	}
-	
+
 	@Test
 	public void testViewAllRequests() {
 		List<Request> fakeRequestList = new ArrayList<>();
-		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(), ReimbursementStatus.REJECTED));
-		fakeRequestList.add(new Request(2, "anotherusername", ReimbursementType.LODGING, 0, null, LocalDateTime.now(), ReimbursementStatus.PENDING));
-		fakeRequestList.add(new Request(3, "someone", ReimbursementType.FOOD, 0, null, LocalDateTime.now(), ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", LocalDateTime.now(), ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(5, "realperson", ReimbursementType.TRAVEL, 0, null, LocalDateTime.now(), ReimbursementStatus.PENDING));
-		
+		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.REJECTED));
+		fakeRequestList.add(new Request(2, "anotherusername", ReimbursementType.LODGING, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.PENDING));
+		fakeRequestList.add(new Request(3, "someone", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.APPROVED));
+		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", LocalDateTime.now(),
+				ReimbursementStatus.APPROVED));
+		fakeRequestList.add(new Request(5, "realperson", ReimbursementType.TRAVEL, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.PENDING));
+
 		when(rDao.selectAllRequests()).thenReturn(fakeRequestList);
-		
+
 		List<Request> requestList = new ArrayList<>();
 		requestList = mService.viewAllRequests();
-		
+
 		assertEquals(requestList.get(0), fakeRequestList.get(0));
 		assertEquals(requestList.get(1), fakeRequestList.get(1));
 		assertEquals(requestList.get(2), fakeRequestList.get(2));
 		assertEquals(requestList.get(3), fakeRequestList.get(3));
 		assertEquals(requestList.get(4), fakeRequestList.get(4));
-		
-		
+
 	}
-	
+
 	@Test
 	public void testUpdateRequestStatus() {
 		when(rDao.updateRequestStatus(1, ReimbursementStatus.APPROVED)).thenReturn(true);
@@ -67,7 +67,7 @@ public class FinanceManagerServiceTest {
 		when(rDao.updateRequestStatus(1, ReimbursementStatus.PENDING)).thenReturn(false);
 		when(rDao.updateRequestStatus(1, null)).thenReturn(false);
 		when(rDao.updateRequestStatus(-1, ReimbursementStatus.APPROVED)).thenReturn(false);
-		
+
 		assertTrue(mService.updateRequestStatus(1, ReimbursementStatus.APPROVED));
 		assertTrue(mService.updateRequestStatus(1, ReimbursementStatus.REJECTED));
 		assertFalse(mService.updateRequestStatus(1, ReimbursementStatus.PENDING));
