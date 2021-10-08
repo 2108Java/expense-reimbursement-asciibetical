@@ -27,54 +27,53 @@ public class EmployeeServiceTest {
 	private UserDAO uDao;
 	@Mock
 	private RequestDAO rDao;
-	
+
 	private EmployeeService eService;
-	
+
 	@Before
 	public void setup() {
 		uDao = mock(UserDAO.class);
 		rDao = mock(RequestDAO.class);
-		
-		eService = new EmployeeServiceImpl();
+		eService = new EmployeeServiceImpl(uDao, rDao);
 	}
-	
+
 	@Test
 	public void testCheckIfUserExists() {
-		List<String> fakeUserList = new ArrayList<>();
-		fakeUserList.add("realusername");
-		
-		when(uDao.selectAllUsernames()).thenReturn(fakeUserList);
-		
+		List<User> fakeUserList = new ArrayList<>();
+		fakeUserList.add(new User("realusername", "password", "email@email.com"));
+
+		when(uDao.selectAllUsers()).thenReturn(fakeUserList);
+
 		assertTrue(eService.checkIfUsernameExists("realusername"));
 		assertFalse(eService.checkIfUsernameExists("fake"));
 	}
-	
+
 	@Test
 	public void testAuthenticate() {
-		
+
 		User fakeUser = new User("realusername", "password", "email@email.com");
-		
+
 		when(uDao.selectUser("realusername")).thenReturn(fakeUser);
-		
+
 		assertTrue(eService.authenticate("realusername", "password"));
 		assertFalse(eService.authenticate("realusername", "badpassword"));
 		assertFalse(eService.authenticate("fake", "password"));
 		assertFalse(eService.authenticate("fake", "fakepassword"));
 	}
-	
+
 	@Test
 	public void testLogin() {
 		User fakeUser = new User("realusername", "password", "email@email.com");
-		
+
 		when(uDao.selectUser("realusername")).thenReturn(fakeUser);
-		
+
 		User user = eService.login("realusername");
-		
+
 		assertEquals(user.getUsername(), fakeUser.getUsername());
 		assertEquals(user.getPassword(), fakeUser.getPassword());
 		assertEquals(user.getEmail(), fakeUser.getEmail());
 	}
-	
+
 	@Test
 	public void testRequestReimbursement() {
 		when(rDao.insertRequest("realusername", ReimbursementType.OTHER, 0, "test")).thenReturn(true);
@@ -84,7 +83,7 @@ public class EmployeeServiceTest {
 		when(rDao.insertRequest("realusername", ReimbursementType.OTHER, 0, null)).thenReturn(false);
 		when(rDao.insertRequest("realusername", null, 0, null)).thenReturn(false);
 		when(rDao.insertRequest(null, ReimbursementType.OTHER, 0, "test")).thenReturn(false);
-		
+
 		assertTrue(eService.requestReimbursment("realusername", ReimbursementType.OTHER, 0, "test"));
 		assertTrue(eService.requestReimbursment("realusername", ReimbursementType.FOOD, 0, null));
 		assertTrue(eService.requestReimbursment("realusername", ReimbursementType.LODGING, 0, null));
@@ -93,37 +92,44 @@ public class EmployeeServiceTest {
 		assertFalse(eService.requestReimbursment("realusername", null, 0, null));
 		assertFalse(eService.requestReimbursment(null, ReimbursementType.OTHER, 0, "test"));
 	}
-	
+
 	@Test
 	public void testViewPendingRequests() {
 		List<Request> fakeRequestList = new ArrayList<>();
-		Request fakeRequest = new Request(-1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(), ReimbursementStatus.PENDING);
+		Request fakeRequest = new Request(-1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.PENDING);
 		fakeRequestList.add(fakeRequest);
-		
-		when(rDao.selectRequestByUsernameAndStatus("realusername", ReimbursementStatus.PENDING)).thenReturn(fakeRequestList);
-		
+
+		when(rDao.selectRequestByUsernameAndStatus("realusername", ReimbursementStatus.PENDING))
+				.thenReturn(fakeRequestList);
+
 		List<Request> requestList = new ArrayList<>();
 		requestList = rDao.selectRequestByUsernameAndStatus("realusername", ReimbursementStatus.PENDING);
-		
+
 		assertEquals(requestList.get(0).getUsername(), fakeRequestList.get(0).getUsername());
 		assertEquals(requestList.get(0).getId(), fakeRequestList.get(0).getId());
 		assertEquals(requestList.get(0).getStatus(), ReimbursementStatus.PENDING);
 	}
-	
+
 	@Test
 	public void testViewPastRequests() {
 		List<Request> fakeRequestList = new ArrayList<>();
-		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(), ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(2, "realusername", ReimbursementType.LODGING, 0, null, LocalDateTime.now(), ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(3, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(), ReimbursementStatus.REJECTED));
-		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", LocalDateTime.now(), ReimbursementStatus.REJECTED));
-		fakeRequestList.add(new Request(5, "realusername", ReimbursementType.TRAVEL, 0, null, LocalDateTime.now(), ReimbursementStatus.APPROVED));
-		
+		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.APPROVED));
+		fakeRequestList.add(new Request(2, "realusername", ReimbursementType.LODGING, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.APPROVED));
+		fakeRequestList.add(new Request(3, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.REJECTED));
+		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", LocalDateTime.now(),
+				ReimbursementStatus.REJECTED));
+		fakeRequestList.add(new Request(5, "realusername", ReimbursementType.TRAVEL, 0, null, LocalDateTime.now(),
+				ReimbursementStatus.APPROVED));
+
 		when(rDao.selectPastRequestByUsername("realusername")).thenReturn(fakeRequestList);
-		
+
 		List<Request> requestList = new ArrayList<>();
 		requestList = eService.viewPastRequests("realusername");
-		
+
 		assertEquals(requestList.get(0), fakeRequestList.get(0));
 		assertEquals(requestList.get(1), fakeRequestList.get(1));
 		assertEquals(requestList.get(2), fakeRequestList.get(2));

@@ -1,6 +1,5 @@
 package com.revature.service;
 import java.util.List;
-import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 import com.revature.models.Request;
 import com.revature.models.User;
