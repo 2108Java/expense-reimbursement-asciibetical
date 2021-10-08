@@ -41,24 +41,24 @@ function createNewRequest() {
 		type = "OTHER";
 	}
 	
-	let request = new RequestToBeSent ();
+	let request = new RequestToBeSent (type, amount, description);
 	
 	//TODO: send POST request
 	let xhttp = new XMLHttpRequest();
 	
-	xhttp.open("POST", BASE_URL + "register", true);
+	xhttp.open("POST", BASE_URL + "request", true);
 	
 	xhttp.setRequestHeader('Content-type', 'application/json');
 	
 	xhttp.onreadystatechange = function(){
 		if(this.status == 200 && this.readyState == 4) {
-			let response = JSON.parse(this.responseText);
+			let response = this.responseText;
 			
 			console.log(response);
 		}
 	}
 	
-	xhttp.send(JSON.stringify(user));
+	xhttp.send(JSON.stringify(request));
 }
 
 function getPastRequests() {
@@ -223,7 +223,24 @@ function approveOrDenyRequest() {
 		//TODO: Some reminder that the user never selected an option
 	}
 	
-	//TODO: Send POST request
+	let params = "id=" + id + "&status=" + status;
+	
+	//TODO: send POST request
+	let xhttp = new XMLHttpRequest();
+	
+	xhttp.open("POST", BASE_URL + "request", true);
+	
+	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	
+	xhttp.onreadystatechange = function(){
+		if(this.status == 200 && this.readyState == 4) {
+			let response = this.responseText;
+			
+			console.log(response);
+		}
+	}
+	
+	xhttp.send(params);
 }
 
 function RequestToBeSent(type, amount, description) {
