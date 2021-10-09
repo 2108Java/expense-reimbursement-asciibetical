@@ -8,8 +8,6 @@ import com.revature.models.User;
 import com.revature.repo.RequestDAO;
 import com.revature.repo.UserDAO;
 import java.util.Properties;
-import java.util.Random;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -38,20 +36,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean authenticate(String username, String password) {
-
+		String encryptedPass = encryptPassword(password);
 		boolean authenticated = false;
 		List<User> allUsers = uDao.selectAllUsers();
 
 		for (User user : allUsers) {
 			if (user.getUsername().equals(username)) {
-				if (decryptPassword(user.getPassword()).equals(password)) {
+				if (user.getPassword().equals(encryptedPass)) {
 					authenticated = true;
 					break;
 				} else {
-					// incorrect password
 					authenticated = false;
 					break;
 				}
+
 			}
 		}
 		return authenticated;
@@ -112,13 +110,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return Base64.getEncoder().encode(password.getBytes()).toString();
 	}
 
-	private String decryptPassword(String password) {
-		return Base64.getDecoder().decode(password.getBytes()).toString();
-	}
-
-	public static String generateRandomPassword() {
+	private static String generateRandomPassword() {
 		final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		Random rand = new Random();
 		SecureRandom random = new SecureRandom();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 15; i++) {

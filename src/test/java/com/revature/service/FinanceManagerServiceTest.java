@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +37,15 @@ public class FinanceManagerServiceTest {
 	@Test
 	public void testViewAllRequests() {
 		List<Request> fakeRequestList = new ArrayList<>();
-		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.REJECTED));
-		fakeRequestList.add(new Request(2, "anotherusername", ReimbursementType.LODGING, 0, null, LocalDateTime.now(),
+		fakeRequestList.add(new Request(2, "anotherusername", ReimbursementType.LODGING, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.PENDING));
-		fakeRequestList.add(new Request(3, "someone", ReimbursementType.FOOD, 0, null, LocalDateTime.now(),
+		fakeRequestList.add(new Request(3, "someone", ReimbursementType.FOOD, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", LocalDateTime.now(),
+		fakeRequestList.add(new Request(4, "realusername", ReimbursementType.OTHER, 0, "test", Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.APPROVED));
-		fakeRequestList.add(new Request(5, "realperson", ReimbursementType.TRAVEL, 0, null, LocalDateTime.now(),
+		fakeRequestList.add(new Request(5, "realperson", ReimbursementType.TRAVEL, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.PENDING));
 
 		when(rDao.selectAllRequests()).thenReturn(fakeRequestList);
