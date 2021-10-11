@@ -45,11 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				if (user.getPassword().equals(encryptedPass)) {
 					authenticated = true;
 					break;
-				} else {
-					authenticated = false;
-					break;
 				}
-
 			}
 		}
 		return authenticated;
