@@ -18,10 +18,9 @@ import io.javalin.http.Context;
 
 public class FinanceManagerController {
 
-	UserDAO uDao = new UserDAOImpl();
 	RequestDAO rDao = new RequestDAOImpl();
 	
-	FinanceManagerService mService = new FinanceManagerServiceImpl(uDao, rDao);
+	FinanceManagerService mService = new FinanceManagerServiceImpl(rDao);
 	List<Request> requestList = new ArrayList<>();
 	
 	public void initializeFakeData() {
@@ -33,6 +32,7 @@ public class FinanceManagerController {
 	}
 	
 	public List<Request> getAllReimbursements(Context ctx) {
+//		requestList = mService.viewAllRequests();
 		ctx.res.setStatus(200);
 		
 		return requestList;
@@ -40,15 +40,19 @@ public class FinanceManagerController {
 	
 	public boolean updateRequestStatus(Context ctx) {
 		int id = Integer.parseInt(ctx.formParam("id"));
-		ReimbursementStatus status = ReimbursementStatus.valueOf(ctx.formParam("type"));
+		ReimbursementStatus status = ReimbursementStatus.valueOf(ctx.formParam("status"));
 		
-		if(mService.updateRequestStatus(id, status)) {
+//		if(mService.updateRequestStatus(id, status)) {
 			ctx.res.setStatus(200);
+			System.out.println("In the method");
+			System.out.println(id);
+			System.out.println(status);
+			
 			return true;
-		}
+//		}
 		
-		ctx.res.setStatus(500);
-		return false;
+//		ctx.res.setStatus(500);
+//		return false;
 	}
 
 }

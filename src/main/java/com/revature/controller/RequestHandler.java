@@ -16,78 +16,86 @@ public class RequestHandler {
 	public static void setUpEndpoints(Javalin app) {
 		EmployeeController employeeController = new EmployeeController();
 		FinanceManagerController managerController = new FinanceManagerController();
+		final String BASE_URL = "localhost:9000/";
 		
+		employeeController.initializeFakeData();
 		managerController.initializeFakeData();
 		
 		app.get("/", ctx -> ctx.req.getRequestDispatcher("index.html").forward(ctx.req, ctx.res));
 		app.get("/login", ctx -> ctx.req.getRequestDispatcher("index.html").forward(ctx.req, ctx.res));
 		
+		app.get("/home", ctx -> ctx.req.getRequestDispatcher("dashboard.html").forward(ctx.req, ctx.res));
+		
 		app.post("/authenticate", ctx -> {employeeController.authenticate(ctx);});
 		
 		app.post("/logout", ctx -> {
-			ctx.consumeSessionAttribute("user");
 			ctx.consumeSessionAttribute("isLoggedIn");
-			ctx.redirect("localhost:9000/");
+			ctx.removeCookie("username");
+			ctx.removeCookie("isFinanceManager");
+			ctx.redirect(BASE_URL);
 		});
 		
-		app.get("/user", ctx -> {
-			if(checkSession(ctx)) {
-				ctx.json(ctx.sessionAttribute("user"));
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
-		});
+//		app.get("/user", ctx -> {
+//			if(checkSession(ctx)) {
+//				ctx.json(ctx.sessionAttribute("user"));
+//			} else {
+//				ctx.redirect(BASE_URL);
+//			}
+//		});
 		
-		app.post("/register", ctx -> {
-			
+		app.post("/user", ctx -> {
+			employeeController.registerAccount(ctx);
 		});
 		
 		app.put("/user", ctx -> {
-			
+			employeeController.changePassword(ctx);
 		});
 		
 		app.post("/request", ctx -> {
-			if(checkSession(ctx)) {
+//			if(checkSession(ctx)) {
 				if(employeeController.createNewRequest(ctx)) {
 					ctx.res.sendRedirect("localhost:9000/home");
 				}
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
+//			} else {
+//				ctx.redirect(BASE_URL);
+//			}
 		});
 		
 		app.get("/pending", ctx -> {
-			if(checkSession(ctx)) {
+//			if(checkSession(ctx)) {
 				ctx.json(employeeController.getUserPendingRequests(ctx));
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
+//			} else {
+//				ctx.redirect(BASE_URL);
+//			}
 		});
 		
 		app.get("/past", ctx -> {
-			if(checkSession(ctx)) {
+//			if(checkSession(ctx)) {
 				ctx.json(employeeController.getAllPastRequests(ctx));
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
+//			} else {
+//				ctx.redirect(BASE_URL);
+//			}
 		});
 		
 		app.get("/all", ctx -> {
 //			if(checkSession(ctx)) {
 				ctx.json(managerController.getAllReimbursements(ctx));
 //			} else {
-//				ctx.redirect("localhost:9000/");
+//				ctx.redirect(BASE_URL);
 //			}
 		});
 		
 		app.put("/request", ctx -> {
-			if(checkSession(ctx)) {
+//			if(checkSession(ctx)) {
+			System.out.println("Before method");
 				if(managerController.updateRequestStatus(ctx)) {
+					System.out.println("After method");
 					ctx.res.sendRedirect("localhost:9000/home");
+					System.out.println("After redirect");
 				}
-			} else {
-				ctx.redirect("localhost:9000/");
-			}
+//			} else {
+//				ctx.redirect(BASE_URL);
+//			}
 		});
 		
 		

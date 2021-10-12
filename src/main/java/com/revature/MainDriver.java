@@ -9,7 +9,7 @@ public class MainDriver {
 	public static void main(String[] args) {
 		Javalin app = Javalin.create(config -> { 
 			config.addStaticFiles(staticFiles ->{staticFiles.directory = "/public";}); 
-			config.enableCorsForAllOrigins();
+//			config.enableCorsForAllOrigins();
 			}).start(9000);
 		
 		
