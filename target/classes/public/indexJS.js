@@ -8,7 +8,7 @@ const BASE_URL = "http://localhost:9000/";
 
 login.addEventListener('click', loginMenu);
 register.addEventListener('click', registerMenu);
-loginSubmit.addEventListener('click', authenticate);
+//loginSubmit.addEventListener('click', authenticate);
 registerSubmit.addEventListener('click', registerAccount);
 
 function loginMenu() {
@@ -40,14 +40,15 @@ function registerAccount() {
 	})
 }
 
-function authenticate() {
+//function authenticate() {
 	
-	let username = document.getElementById('username').value;
-	let password = document.getElementById('password').value;
+//	let username = document.getElementById('username').value;
+//	let password = document.getElementById('password').value;
 	
-	fetch(BASE_URL + 'authenticate', {
-    	method: 'POST',
-    	headers: {'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json'},
-    	body: 'username=' + username + '&password='+ password
-	})
-}
+	//fetch(BASE_URL + 'authenticate', {
+   // 	method: 'POST',
+  //  	headers: {'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json'},
+ //   	body: 'username=' + username + '&password='+ password
+//	})
+//	.then(response=>console.log(response))
+//}

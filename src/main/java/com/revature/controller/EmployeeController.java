@@ -33,7 +33,7 @@ public class EmployeeController {
 		requestList.add(new Request(5, "Someone Else", ReimbursementType.LODGING, 400, null, LocalDateTime.now(), ReimbursementStatus.APPROVED));
 	}
 	
-	public void authenticate(Context ctx) throws IOException {
+	public String authenticate(Context ctx) throws IOException {
 		String username = ctx.formParam("username");
 		String password = ctx.formParam("password");
 		
@@ -48,11 +48,10 @@ public class EmployeeController {
 //				ctx.cookie("isFinanceManager", isFinanceManager.toString());
 				ctx.cookie("isFinanceManager", "true");
 
-				ctx.res.sendRedirect("localhost:9000/home");
+				ctx.res.sendRedirect("http://localhost:9000/home");
 			}
 //		}
-		
-//		ctx.res.sendRedirect("localhost:9000/");
+			return "/login";
 	}
 	
 	public boolean registerAccount(Context ctx) {

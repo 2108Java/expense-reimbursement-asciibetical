@@ -26,7 +26,7 @@ public class RequestHandler {
 		
 		app.get("/home", ctx -> ctx.req.getRequestDispatcher("dashboard.html").forward(ctx.req, ctx.res));
 		
-		app.post("/authenticate", ctx -> {employeeController.authenticate(ctx);});
+		app.post("/authenticate", ctx -> ctx.redirect(employeeController.authenticate(ctx)));
 		
 		app.post("/logout", ctx -> {
 			ctx.consumeSessionAttribute("isLoggedIn");
