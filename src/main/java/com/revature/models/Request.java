@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class Request {
 	private ReimbursementType type;
 	private double amount;
 	private String description;
-	private LocalDateTime timestamp;
+	private Timestamp timestamp;
 	private ReimbursementStatus status;
 
 	public Request() {
@@ -22,11 +23,11 @@ public class Request {
 	}
 
 	public Request(String username, ReimbursementType type, double amount, String description) {
-		this(-1, username, type, amount, description, LocalDateTime.now(), ReimbursementStatus.PENDING);
+		this(-1, username, type, amount, description, Timestamp.valueOf(LocalDateTime.now()), ReimbursementStatus.PENDING);
 	}
 
 	public Request(int id, String username, ReimbursementType type, double amount, String description,
-			LocalDateTime timestamp, ReimbursementStatus status) {
+			Timestamp timestamp, ReimbursementStatus status) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -77,11 +78,11 @@ public class Request {
 		this.description = description;
 	}
 
-	public LocalDateTime getTimestamp() {
+	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
+	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 

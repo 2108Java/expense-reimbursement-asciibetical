@@ -39,7 +39,7 @@ public class UserDAOImpl implements UserDAO {
 		User selectedUser = new User();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
-
+			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -66,11 +66,7 @@ public class UserDAOImpl implements UserDAO {
 			updateStatus.setString(2, username);
 			updateStatus.execute();
 
-			sql = "SELECT * FROM users WHERE user_username = ? AND user_password = ?";
-			PreparedStatement confirmUpdate = conn.prepareStatement(sql);
-			updateStatus.setString(1, username);
-			updateStatus.setString(2, newPassword);
-			success = confirmUpdate.execute();
+			success = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

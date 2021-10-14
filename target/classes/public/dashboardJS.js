@@ -1,8 +1,3 @@
-let makeRequest = document.getElementById("make-request");
-let viewPast = document.getElementById("view-past");
-let viewPending = document.getElementById("view-pending");
-let viewAll = document.getElementById("view-all");
-let updateStatus = document.getElementById("update-status");
 let financeManagerDiv = document.getElementById("finance-manager-options");
 let requestSubmit = document.getElementById('request-submit');
 let statusSubmit = document.getElementById('status-submit');
@@ -28,7 +23,7 @@ let formatter = new Intl.NumberFormat('en-US', {
 window.addEventListener('load',startup);
 
 function startup(){
-    if(isFinanceManager){    // if user is a finance manager
+    if(true){    // if user is a finance manager
         financeManagerDiv.style.display = "block";
     }else{
         financeManagerDiv.style.display = "none";
