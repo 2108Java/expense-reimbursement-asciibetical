@@ -13,7 +13,63 @@
 </head>
 
 <body>
-    <div id="nav-bar"></div>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Ascciibetical</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Update Password</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary" id="logout">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-password-form">
+                        <div class="row">
+                            <div class="col">
+                                <label for="username" class="form-label h5">New Password</label>
+                                <input id="newpass" class="form-control form-control-lg" type="text"
+                                    placeholder="New Password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="username" class="form-label h5">Re-enter New Password</label>
+                                <input id="newpass2" class="form-control form-control-lg" type="text"
+                                    placeholder="Re-enter New Password">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md">
+                                <button type="button" class="btn btn-block btn-danger btn-lg"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button id="password-submit" class="btn btn-block btn-success btn-lg">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container text-center">
         <div class="row">
             <div class="col">
@@ -27,12 +83,13 @@
         </div>
         <div class="row justify-content-around">
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button type="button" id="make-request-btn" class="btn btn-secondary btn-block btn-lg"
-                    data-toggle="collapse" data-target="#request-form">
+                <button type="button" id="make-request-btn" class="btn btn-secondary btn-block btn-lg" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#request-form" aria-expanded="false"
+                    aria-controls="request-form">
                     Make A New Reimbursment Request</button>
             </div>
         </div>
-        <div id="request-form" class="collapse multi-collapse">
+        <div id="request-form" class="collapse">
             <form id="make-request-form">
                 <div class="row">
                     <div class="col">
@@ -71,38 +128,80 @@
         </div>
         <div class="row justify-content-around">
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button id="view-past" class="btn btn-secondary btn-block btn-lg" data-toggle="collapse"
-                    data-target="#past-table">
+                <button id="view-past" class="btn btn-secondary btn-block btn-lg" data-toggle="collapse" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#past-table" aria-expanded="false"
+                    aria-controls="past-table">
                     View My Past Reimbursment Requests</button>
             </div>
         </div>
-        <div id="past-table" class="collapse multi-collapse">
+        <div id="past-table" class="collapse">
             <div class="row justify-content-around">
-                <table id="past-reimbursments" class="table table-striped align-middle">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
+                <div class="col">
+                    <label class="form-label h4">Reimbursment Type:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="past-travel">
+                        <label class="form-check-label" for="past-travel">Travel</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox
+                            input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                            input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox
+                            input</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="form-label h4">Reimbursment Type:</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="past-travel">
+                        <label class="form-check-label" for="past-travel">Travel</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox
+                            input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                            input</label>
+                    </div>
+                </div>
+                <div class="row justify-content-around">
+                    <table id="past-reimbursments" class="table table-striped align-middle">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="row justify-content-around">
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button id="view-pending" class="btn btn-secondary btn-lg"  data-toggle="collapse"
-                data-target="#pending-table">
+                <button id="view-pending" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#pending-table" aria-expanded="false" aria-controls="pending-table">
                     View My Pending Reimbursment Requests</button>
             </div>
         </div>
 
-        <div id="pending-table" class="collapse multi-collapse">
+        <div id="pending-table" class="collapse">
             <div class="row justify-content-around">
                 <table id="pending-reimbursments" class="table table-striped align-middle">
                     <thead class="">
@@ -115,7 +214,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -124,8 +223,8 @@
         <div id="finance-manager-options">
             <div class="row justify-content-around">
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button id="view-all" class="btn btn-secondary btn-lg"  data-toggle="collapse"
-                    data-target="#all-table">
+                    <button id="view-all" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#all-table" aria-expanded="false" aria-controls="all-table">
                         View All Reimbursment Requests</button>
                 </div>
             </div>
@@ -143,7 +242,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -151,8 +250,8 @@
 
             <div class="row justify-content-around">
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button id="update-status" class="btn btn-secondary btn-block btn-lg"
-                    data-toggle="collapse" data-target="#status-form">
+                    <button id="view-all" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#status-form" aria-expanded="false" aria-controls="status-form">
                         Update Reimbursment Request Status</button>
                 </div>
             </div>
@@ -161,7 +260,7 @@
                     <div class="row">
                         <div class="col">
                             <label class="form-label h4">Reimbursment ID:</label>
-                        <div><input type="number" placeholder="0" required /></div>
+                            <div><input type="number" placeholder="0" required /></div>
                         </div>
                     </div>
                     <div class="row">
@@ -172,7 +271,7 @@
                                     Approve</label>
                                 <label class="radio-inline"><input type="radio" name="expense-type" id="denyed">
                                     Deny</label>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -190,8 +289,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="dashboardJS.js"></script>
