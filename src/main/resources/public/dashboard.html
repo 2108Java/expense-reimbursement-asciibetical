@@ -24,19 +24,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">Update Password</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Update Password</button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary" id="logout">Logout</button>
-                        </li>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Update Password</h5>
@@ -57,14 +57,14 @@
                                 <input id="newpass2" class="form-control form-control-lg" type="text"
                                     placeholder="Re-enter New Password">
                             </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md">
+                                <button type="button" class="btn btn-block btn-danger btn-lg"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button id="password-submit" class="btn btn-block btn-success btn-lg">Submit</button>
                             </div>
-                            <div class="row justify-content-center">
-                                <div class="col-md">
-                                    <button type="button" class="btn btn-block btn-danger btn-lg"
-                                        data-bs-dismiss="modal">Cancel</button>
-                                    <button id="password-submit" class="btn btn-block btn-success btn-lg">Submit</button>
-                                </div>
-                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -91,36 +91,36 @@
         </div>
         <div id="request-form" class="collapse">
             <form id="make-request-form">
-                <div class="row">
-                    <div class="col">
-                        <label for="radio" class="form-label h4">Expense Type</label>
+                <div class="row justify-content-center">
+                    <div class="col-md">
                         <div class="radio h6">
-                            <label class="radio-inline"><input type="radio" name="expense-type" id="travel">
+                            <label for="radio" class="form-label h4">Expense Type:</label>
+                            <label class="radio-inline"><input type="radio" name="expense-type" id="travel" required>
                                 Travel</label>
-                            <label class="radio-inline"><input type="radio" name="expense-type" id="lodging">
+                            <label class="radio-inline"><input type="radio" name="expense-type" id="lodging" required>
                                 Lodging</label>
-                            <label class="radio-inline"><input type="radio" name="expense-type" id="food">
+                            <label class="radio-inline"><input type="radio" name="expense-type" id="food" required>
                                 Food</label>
-                            <label class="radio-inline"><input type="radio" name="expense-type" id="other" checked>
+                            <label class="radio-inline"><input type="radio" name="expense-type" id="other" required>
                                 Other</label>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <label class="form-label h4">Amount of Expense</label>
-                        <div>$<input type="number" min="0.00" step=".01" placeholder="1,000.00" required /></div>
+                <div class="row justify-content-center">
+                    <div class="col-md">
+                        <label class="form-label h4">Amount of Expense: $</label><input type="number" min="0.00"
+                            step=".01" placeholder="1,000.00" required />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <label class="form-label h4">Description of Expense</label>
-                        <div><textarea class="form-flex" rows="3" cols="40" name="description"
+                    <div class="col-md">
+                        <label class="form-label h4">Description of Expense: </label>
+                        <div><textarea class="form-flex" rows="4" cols="65" name="description"
                                 id="description"></textarea></div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="col-md">
                         <button id="request-submit" class="btn btn-block btn-success btn-lg">Submit</button>
                     </div>
                 </div>
@@ -129,100 +129,136 @@
         <div class="row justify-content-around">
             <div class="d-grid gap-2 col-6 mx-auto">
                 <button id="view-past" class="btn btn-secondary btn-block btn-lg" data-toggle="collapse" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#past-table" aria-expanded="false"
-                    aria-controls="past-table">
+                    data-bs-toggle="collapse" data-bs-target="#employee-table" aria-expanded="false"
+                    aria-controls="employee-table">
                     View My Past Reimbursment Requests</button>
             </div>
         </div>
-        <div id="past-table" class="collapse">
-            <div class="row justify-content-around">
-                <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-                  </div>
-                  <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-                  </div>
-                  <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-                  </div>
-                  <div class="form-check form-check-inline form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-                  </div>
-                <table id="past-reimbursments" class="table table-striped align-middle">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <div id="employee-table" class="collapse">
+            <div class="row justify-content-center">
+                <div class="col-3 text-center">
+                    <label class="form-label h4">Reimbursment Type</label>
+                    <div class="form-check form-switch text-start">
+                        <input class="form-check-input" type="checkbox" id="employee-travel">
+                        <label class="form-check-label" for="employee-travel">Travel</label>
+                    </div>
+                    <div class="form-check form-switch text-start">
+                        <input class="form-check-input" type="checkbox" id="employee-lodging">
+                        <label class="form-check-label" for="employee-lodging">Lodging</label>
+                    </div>
+                    <div class="form-check form-switch text-start">
+                        <input class="form-check-input" type="checkbox" id="employee-food">
+                        <label class="form-check-label" for="employee-food">Food</label>
+                    </div>
+                    <div class="form-check form-switch text-start">
+                        <input class="form-check-input" type="checkbox" id="employee-other">
+                        <label class="form-check-label" for="employee-other">Other</label>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <form>
+                        <label class="form-label h4">Status</label>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="employee-approved">
+                            <label class="form-check-label" for="employee-approved">Approved</label>
+                        </div>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="employee-rejected">
+                            <label class="form-check-label" for="employee-rejected">Rejected</label>
+                        </div>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="employee-pending">
+                            <label class="form-check-label" for="employee-pending">Pending</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="row justify-content-around">
+                    <div class="col-12 text-center">
+                        <table id="employee-reimbursments" class="table table-striped align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row justify-content-around">
-            <div class="d-grid gap-2 col-6 mx-auto">
-                <button id="view-pending" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#pending-table" aria-expanded="false" aria-controls="pending-table">
-                    View My Pending Reimbursment Requests</button>
-            </div>
-        </div>
-
-        <div id="pending-table" class="collapse">
-            <div class="row justify-content-around">
-                <table id="pending-reimbursments" class="table table-striped align-middle">
-                    <thead class="">
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
         <div id="finance-manager-options">
             <div class="row justify-content-around">
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button id="view-all" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#all-table" aria-expanded="false" aria-controls="all-table">
-                        View All Reimbursment Requests</button>
+                        data-bs-target="#manager-table" aria-expanded="false" aria-controls="manager-table">
+                        View All Reimbursment Requests
+                    </button>
                 </div>
             </div>
-
-            <div id="all-table" class="collapse multi-collapse">
+            <div id="manager-table" class="collapse multi-collapse">
+                <div class="row justify-content-center">
+                    <div class="col-3 text-center">
+                        <label class="form-label h4">Reimbursment Type</label>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="manager-travel">
+                            <label class="form-check-label" for="manager-travel">Travel</label>
+                        </div>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="manager-lodging">
+                            <label class="form-check-label" for="manager-lodging">Lodging</label>
+                        </div>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="manager-food">
+                            <label class="form-check-label" for="manager-food">Food</label>
+                        </div>
+                        <div class="form-check form-switch text-start">
+                            <input class="form-check-input" type="checkbox" id="manager-other">
+                            <label class="form-check-label" for="manager-other">Other</label>
+                        </div>
+                    </div>
+                    <div class="col-3 text-center">
+                        <form>
+                            <label class="form-label h4">Status</label>
+                            <div class="form-check form-switch text-start">
+                                <input class="form-check-input" type="checkbox" id="manager-approved">
+                                <label class="form-check-label" for="manager-approved">Approved</label>
+                            </div>
+                            <div class="form-check form-switch text-start">
+                                <input class="form-check-input" type="checkbox" id="manager-rejected">
+                                <label class="form-check-label" for="manager-rejected">Rejected</label>
+                            </div>
+                            <div class="form-check form-switch text-start">
+                                <input class="form-check-input" type="checkbox" id="manager-pending">
+                                <label class="form-check-label" for="manager-pending">Pending</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="row justify-content-around">
-                    <table id="all-reimbursments" class="table table-striped align-middle">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="col-12 text-center">
+                        <table id="manager-reimbursments" class="table table-striped align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
             <div class="row justify-content-around">
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button id="view-all" class="btn btn-secondary btn-lg" type="button" data-bs-toggle="collapse"
@@ -232,26 +268,25 @@
             </div>
             <div id="status-form" class="collapse multi-collapse">
                 <form id="make-status-form">
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label h4">Reimbursment ID:</label>
-                            <div><input type="number" placeholder="0" required /></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="radio" class="form-label h4">Status</label>
-                            <div class="radio h6">
-                                <label class="radio-inline"><input type="radio" name="expense-type" id="approved">
-                                    Approve</label>
-                                <label class="radio-inline"><input type="radio" name="expense-type" id="denyed">
-                                    Deny</label>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-auto text-center">
+                                <label class="form-label h4">Reimbursment ID: </label>
+                                <input type="number" placeholder="0" required />
+
+                                <div class="radio h6">
+                                    <label for="radio" class="form-label h4">Status: </label>
+                                    <label class="radio-inline"><input type="radio" name="expense-type" id="approved"
+                                            required>Approve</label>
+                                    <label class="radio-inline"><input type="radio" name="expense-type" id="denyed"
+                                            required>Reject</label>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-6">
-                            <button id="status-submit" class="btn btn-block btn-success btn-lg">Submit</button>
+                            <div class="col-sm-auto">
+                                <div class="col-auto col-sm-auto">
+                                    <button id="status-submit" class="btn btn-block btn-success btn-lg">Submit</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
