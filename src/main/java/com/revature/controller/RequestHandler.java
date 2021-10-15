@@ -28,7 +28,7 @@ public class RequestHandler {
 		
 		app.post("/authenticate", ctx -> ctx.redirect(employeeController.authenticate(ctx)));
 		
-		app.post("/logout", ctx -> {
+		app.get("/logout", ctx -> {
 			ctx.consumeSessionAttribute("isLoggedIn");
 			ctx.removeCookie("username");
 			ctx.removeCookie("isFinanceManager");
@@ -52,50 +52,47 @@ public class RequestHandler {
 		});
 		
 		app.post("/request", ctx -> {
-//			if(checkSession(ctx)) {
+			if(checkSession(ctx)) {
 				if(employeeController.createNewRequest(ctx)) {
 					ctx.res.sendRedirect("localhost:9000/home");
 				}
-//			} else {
-//				ctx.redirect(BASE_URL);
-//			}
+			} else {
+				ctx.redirect(BASE_URL);
+			}
 		});
 		
 		app.get("/pending", ctx -> {
-//			if(checkSession(ctx)) {
+			if(checkSession(ctx)) {
 				ctx.json(employeeController.getUserPendingRequests(ctx));
-//			} else {
-//				ctx.redirect(BASE_URL);
-//			}
+			} else {
+				ctx.redirect(BASE_URL);
+			}
 		});
 		
 		app.get("/past", ctx -> {
-//			if(checkSession(ctx)) {
+			if(checkSession(ctx)) {
 				ctx.json(employeeController.getAllPastRequests(ctx));
-//			} else {
-//				ctx.redirect(BASE_URL);
-//			}
+			} else {
+				ctx.redirect(BASE_URL);
+			}
 		});
 		
 		app.get("/all", ctx -> {
-//			if(checkSession(ctx)) {
+			if(checkSession(ctx)) {
 				ctx.json(managerController.getAllReimbursements(ctx));
-//			} else {
-//				ctx.redirect(BASE_URL);
-//			}
+			} else {
+				ctx.redirect(BASE_URL);
+			}
 		});
 		
 		app.put("/request", ctx -> {
-//			if(checkSession(ctx)) {
-			System.out.println("Before method");
+			if(checkSession(ctx)) {
 				if(managerController.updateRequestStatus(ctx)) {
-					System.out.println("After method");
 					ctx.res.sendRedirect("localhost:9000/home");
-					System.out.println("After redirect");
 				}
-//			} else {
-//				ctx.redirect(BASE_URL);
-//			}
+			} else {
+				ctx.redirect(BASE_URL);
+			}
 		});
 		
 		

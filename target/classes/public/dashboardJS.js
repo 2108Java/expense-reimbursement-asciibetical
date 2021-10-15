@@ -2,6 +2,10 @@ let financeManagerDiv = document.getElementById("finance-manager-options");
 let requestSubmit = document.getElementById('request-submit');
 let statusSubmit = document.getElementById('status-submit');
 let welcomeUser = document.getElementById('welcome-user');
+let pendingToggle = document.getElementById('all-pending');
+let approvedToggle = document.getElementById('all-approved');
+let rejectedToggle = document.getElementById('all-rejected');
+let allRequests = [];
 const BASE_URL = "http://localhost:9000/";
 const getCookieValue = (name) => (
   document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
@@ -22,9 +26,11 @@ let formatter = new Intl.NumberFormat('en-US', {
 
 window.addEventListener('load',startup);
 
-function startup(){
-    if(true){    // if user is a finance manager
+async function startup(){
+    if(isFinanceManager){    // if user is a finance manager
         financeManagerDiv.style.display = "block";
+        allRequests = await getAllRequests();
+        populateAllTable(allRequests);
     }else{
         financeManagerDiv.style.display = "none";
     }
@@ -34,17 +40,28 @@ function startup(){
 
 window.onload = function(){
 
-	getAllRequests();
+	
 	getPastRequests();
 	getPendingRequests();
-	
 }
 
 requestSubmit.addEventListener('click', createNewRequest);
 statusSubmit.addEventListener('click', approveOrDenyRequest);
+pendingToggle.addEventListener('change', function(){filterAllTable(allRequests);});
+approvedToggle.addEventListener('change', function(){filterAllTable(allRequests);});
+rejectedToggle.addEventListener('change', function(){filterAllTable(allRequests);});
 
 function createNewRequest() {
-	let amount = document.getElementById('request-amount').value;
+	if(!amount > 0 && amount != null) {
+		let amount = document.getElementById('request-amount').value;
+		
+		fetch(BASE_URL + 'request', {
+    		method: 'POST',
+    		headers: {'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json'},
+    		body: 'amount=' + amount + '&description='+ description + '&type=' + type
+		})
+	}
+	
 	let description = document.getElementById('description').value;
 	let type = "";
 	if(document.getElementById('travel').checked) {
@@ -60,11 +77,7 @@ function createNewRequest() {
 		type = "OTHER";
 	}
 	
-	fetch(BASE_URL + 'request', {
-    	method: 'POST',
-    	headers: {'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json'},
-    	body: 'amount=' + amount + '&description='+ description + '&type=' + type
-	})
+	
 }
 
 function getPastRequests() {
@@ -151,29 +164,11 @@ function populatePendingTable(requestArray) {
 	}
 }
 
-function getAllRequests() {
+async function getAllRequests() {
 	
-	//let xhttp = new XMLHttpRequest();
+	const response = await fetch(BASE_URL + "all");
 	
-	//xhttp.onreadystatechange = function (){ 
-		
-		
-		//if(this.readyState == 4 && this.status == 200){
-			
-			//let requestArray = JSON.parse(this.responseText);
-			
-			//populateAllTable(requestArray);
-		//}
-	//}
-
-	//xhttp.open("GET",BASE_URL + "all");
-	
-	//xhttp.send();
-	
-	fetch(BASE_URL + "all")
-  		.then(response => response.json())
-  		.then(data => populateAllTable(data));
-	
+	return response.json();
 }
 
 function addAllRow(request) {
@@ -211,10 +206,75 @@ function populateAllTable(requestArray) {
 }
 
 function resetTable() {
-	let allTableRows = document.getElementById("all-table-body").getElementsByTagName("tr");
-	
-	for(let row of allTableRows) {
-		row.remove();
+		
+	let allTableBody = document.getElementById("all-table-body");
+	allTableBody.innerHTML = "";
+}
+
+function filterAllTable(requestArray) {
+	let newArray = [];
+	resetTable();
+	if(pendingToggle.checked && !approvedToggle.checked && !rejectedToggle.checked) {
+		for(let request of requestArray) {
+			if(request.status == "PENDING") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(!pendingToggle.checked && approvedToggle.checked && !rejectedToggle.checked) {
+		for(let request of requestArray) {
+			if(request.status == "APPROVED") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(!pendingToggle.checked && !approvedToggle.checked && rejectedToggle.checked) {
+		for(let request of requestArray) {
+			if(request.status == "REJECTED") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(pendingToggle.checked && approvedToggle.checked && !rejectedToggle.checked) {
+		for(let request of requestArray) {
+			if(request.status == "APPROVED" || request.status == "PENDING") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(!pendingToggle.checked && approvedToggle.checked && rejectedToggle.checked) {
+		for(let request of requestArray) {
+			if(request.status == "APPROVED" || request.status == "REJECTED") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(pendingToggle.checked && !approvedToggle.checked && rejectedToggle.checked) {
+		
+		for(let request of requestArray) {
+			if(request.status == "REJECTED" || request.status == "PENDING") {
+				newArray.push(request);
+			}
+		}
+		
+		populateAllTable(newArray);
+	}
+	else if(pendingToggle.checked && approvedToggle.checked && rejectedToggle.checked) {
+				
+		populateAllTable(requestArray);
+	}
+	else {
+		populateAllTable(newArray);
 	}
 }
 

@@ -33,7 +33,7 @@ public class FinanceManagerController {
 	}
 	
 	public List<Request> getAllReimbursements(Context ctx) {
-//		requestList = mService.viewAllRequests();
+		requestList = mService.viewAllRequests();
 		ctx.res.setStatus(200);
 		
 		return requestList;
@@ -43,17 +43,17 @@ public class FinanceManagerController {
 		int id = Integer.parseInt(ctx.formParam("id"));
 		ReimbursementStatus status = ReimbursementStatus.valueOf(ctx.formParam("status"));
 		
-//		if(mService.updateRequestStatus(id, status)) {
+		if(mService.updateRequestStatus(id, status)) {
 			ctx.res.setStatus(200);
-			System.out.println("In the method");
-			System.out.println(id);
-			System.out.println(status);
+//			System.out.println("In the method");
+//			System.out.println(id);
+//			System.out.println(status);
 			
 			return true;
-//		}
+		}
 		
-//		ctx.res.setStatus(500);
-//		return false;
+		ctx.res.setStatus(500);
+		return false;
 	}
 
 }
