@@ -13,5 +13,4 @@ public interface EmployeeService {
 	List<Request> viewPastRequests(String username);
 	boolean createNewAccount(String username, String email);
 	boolean changePassword(String username, String newPassword);
-	
 }

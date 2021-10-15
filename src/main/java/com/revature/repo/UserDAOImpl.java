@@ -100,6 +100,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean deleteUser(String username) {
+
 		boolean success = false;
 		String sql = "DELETE FROM users WHERE user_username = ?;";
 		try (Connection conn = ConnectionFactory.getConnection()) {

@@ -17,6 +17,7 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public Request selectRequestById(int id) {
+
 		String sql = "SELECT * FROM reimbursement WHERE id = ?";
 		Request selectedRequestById = new Request();
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -41,10 +42,12 @@ public class RequestDAOImpl implements RequestDAO {
 		}
 
 		return selectedRequestById;
+
 	}
 
 	@Override
 	public List<Request> selectAllRequests() {
+
 		String sql = "SELECT * FROM reimbursement";
 		List<Request> allRequests = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -149,6 +152,7 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public boolean insertRequest(String username, ReimbursementType type, double amount, String description) {
+
 		boolean success = false;
 		Timestamp timeOfRequest = Timestamp.valueOf(LocalDateTime.now());
 		try (Connection conn = ConnectionFactory.getConnection()) {

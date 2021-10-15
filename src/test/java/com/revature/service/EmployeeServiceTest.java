@@ -35,7 +35,6 @@ public class EmployeeServiceTest {
 	public void setup() {
 		uDao = mock(UserDAO.class);
 		rDao = mock(RequestDAO.class);
-
 		eService = new EmployeeServiceImpl(uDao, rDao);
 	}
 

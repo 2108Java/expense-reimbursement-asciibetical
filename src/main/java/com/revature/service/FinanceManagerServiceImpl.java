@@ -23,6 +23,5 @@ public class FinanceManagerServiceImpl implements FinanceManagerService {
 	public boolean updateRequestStatus(int id, ReimbursementStatus status) {
 		return rDao.updateRequestStatus(id, status);
 	}
-	
-	
+
 }
