@@ -95,25 +95,7 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	public void testViewPendingRequests() {
-		List<Request> fakeRequestList = new ArrayList<>();
-		Request fakeRequest = new Request(-1, "realusername", ReimbursementType.FOOD, 0, null, Timestamp.valueOf(LocalDateTime.now()),
-				ReimbursementStatus.PENDING);
-		fakeRequestList.add(fakeRequest);
-
-		when(rDao.selectRequestByUsernameAndStatus("realusername", ReimbursementStatus.PENDING))
-				.thenReturn(fakeRequestList);
-
-		List<Request> requestList = new ArrayList<>();
-		requestList = rDao.selectRequestByUsernameAndStatus("realusername", ReimbursementStatus.PENDING);
-
-		assertEquals(requestList.get(0).getUsername(), fakeRequestList.get(0).getUsername());
-		assertEquals(requestList.get(0).getId(), fakeRequestList.get(0).getId());
-		assertEquals(requestList.get(0).getStatus(), ReimbursementStatus.PENDING);
-	}
-
-	@Test
-	public void testViewPastRequests() {
+	public void testViewEmployeeRequests() {
 		List<Request> fakeRequestList = new ArrayList<>();
 		fakeRequestList.add(new Request(1, "realusername", ReimbursementType.FOOD, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.APPROVED));
@@ -126,10 +108,8 @@ public class EmployeeServiceTest {
 		fakeRequestList.add(new Request(5, "realusername", ReimbursementType.TRAVEL, 0, null, Timestamp.valueOf(LocalDateTime.now()),
 				ReimbursementStatus.APPROVED));
 
-		when(rDao.selectPastRequestByUsername("realusername")).thenReturn(fakeRequestList);
-
 		List<Request> requestList = new ArrayList<>();
-		requestList = eService.viewPastRequests("realusername");
+		requestList = eService.viewEmployeeRequests("realusername");
 
 		assertEquals(requestList.get(0), fakeRequestList.get(0));
 		assertEquals(requestList.get(1), fakeRequestList.get(1));

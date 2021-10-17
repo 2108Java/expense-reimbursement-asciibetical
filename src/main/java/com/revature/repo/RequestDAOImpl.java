@@ -73,23 +73,22 @@ public class RequestDAOImpl implements RequestDAO {
 	}
 
 	@Override
-	public List<Request> selectRequestByUsernameAndStatus(String username, ReimbursementStatus status) {
-		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND status = ?::reimbursement_status";
-		List<Request> selectedRequestByUsernameAndStatus = new ArrayList<Request>();
+	public List<Request> selectRequestByUsername(String username) {
+		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ?";
+		List<Request> employeeRequests = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
 			PreparedStatement ps = conn.prepareStatement(sql);
 
 			ps.setString(1, username);
-			ps.setString(2, status.name());
 
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 
-				selectedRequestByUsernameAndStatus.add(new Request(rs.getInt("id"), rs.getString("user_username_fk"),
+				employeeRequests.add(new Request(rs.getInt("id"), rs.getString("user_username_fk"),
 						ReimbursementType.valueOf(rs.getString("reimbursement_type")), rs.getDouble("amount"),
-						rs.getString("desciption"), rs.getTimestamp("time_of_request"),
+						rs.getString("description"), rs.getTimestamp("time_of_request"),
 						ReimbursementStatus.valueOf(rs.getString("status"))));
  
 			}
@@ -97,35 +96,7 @@ public class RequestDAOImpl implements RequestDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return selectedRequestByUsernameAndStatus;
-	}
-
-	@Override
-	public List<Request> selectPastRequestByUsername(String username) {
-		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ? AND (status = ?::reimbursement_status OR status = ?::reimbursement_status)";
-		List<Request> selectedPastRequestByUsername = new ArrayList<Request>();
-		try (Connection conn = ConnectionFactory.getConnection()) {
-			PreparedStatement ps = conn.prepareStatement(sql);
-
-			ps.setString(1, username);
-			ps.setString(2, ReimbursementStatus.APPROVED.name());
-			ps.setString(3, ReimbursementStatus.REJECTED.name());
-			
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-
-				selectedPastRequestByUsername.add(new Request(rs.getInt("id"), rs.getString("user_username_fk"),
-						ReimbursementType.valueOf(rs.getString("reimbursement_type")), rs.getDouble("amount"),
-						rs.getString("description"), rs.getTimestamp("time_of_request"),
-						ReimbursementStatus.valueOf(rs.getString("status"))));
-
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return selectedPastRequestByUsername;
+		return employeeRequests;
 	}
 
 	@Override
@@ -157,7 +128,7 @@ public class RequestDAOImpl implements RequestDAO {
 		Timestamp timeOfRequest = Timestamp.valueOf(LocalDateTime.now());
 		try (Connection conn = ConnectionFactory.getConnection()) {
 
-			String sql = "INSERT INTO reimbursement(user_username_fk,reimbursement_type,amount,desciption,time_of_request,status) "
+			String sql = "INSERT INTO reimbursement(user_username_fk,reimbursement_type,amount,description,time_of_request,status) "
 					+ "VALUES( ?, ?::reimbursement_types, ?, ?, ?, ?::reimbursement_status );";
 			PreparedStatement insertStatement = conn.prepareStatement(sql);
 			insertStatement.setString(1, username);

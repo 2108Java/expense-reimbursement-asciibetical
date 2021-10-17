@@ -9,8 +9,7 @@ public interface EmployeeService {
 	boolean checkIfUsernameExists(String username);
 	boolean authenticate(String username, String password);
 	boolean requestReimbursment(String username, ReimbursementType type, double amount, String description);
-	List<Request> viewPendingRequests(String username);
-	List<Request> viewPastRequests(String username);
 	boolean createNewAccount(String username, String email);
 	boolean changePassword(String username, String newPassword);
+	List<Request> viewEmployeeRequests(String username);
 }

@@ -28,7 +28,7 @@
 							data-bs-target="#staticBackdrop">Update Password</button>
 					</li>
 					<li class="nav-item">
-						<button type="button" class="btn btn-primary" id="logout">Logout</button>
+						<button type="button" class="btn btn-primary" id="logout-submit">Logout</button>
 					</li>
 				</ul>
 			</div>
@@ -43,17 +43,17 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form id="update-password-form">
+					<form>
 						<div class="row">
 							<div class="col">
-								<label for="username" class="form-label h5">New Password</label>
-								<input id="newpass" class="form-control form-control-lg" type="text"
-									placeholder="New Password">
+								<label for="newpassword" class="form-label h5">New Password</label>
+								<input id="newpassword" name="newpassword" class="form-control form-control-lg"
+									type="text" placeholder="New Password">
 							</div>
 						</div>
 						<div class="row">
 							<div class="col">
-								<label for="username" class="form-label h5">Re-enter New Password</label>
+								<label for="newpass2" class="form-label h5">Re-enter New Password</label>
 								<input id="newpass2" class="form-control form-control-lg" type="text"
 									placeholder="Re-enter New Password">
 							</div>
@@ -101,7 +101,8 @@
 								Lodging</label>
 							<label class="radio-inline"><input type="radio" name="expense-type" id="food" required>
 								Food</label>
-							<label class="radio-inline"><input type="radio" name="expense-type" id="other" checked required>
+							<label class="radio-inline"><input type="radio" name="expense-type" id="other" checked
+									required>
 								Other</label>
 						</div>
 					</div>
@@ -128,15 +129,40 @@
 		</div>
 		<div class="row justify-content-around">
 			<div class="d-grid gap-2 col-6 mx-auto">
-				<button id="view-past" class="btn btn-secondary btn-block btn-lg" data-toggle="collapse" type="button"
-					data-bs-toggle="collapse" data-bs-target="#past-table" aria-expanded="false"
-					aria-controls="past-table">
-					View My Past Reimbursment Requests</button>
+				<button id="view-employee" class="btn btn-secondary btn-block btn-lg" data-toggle="collapse"
+					type="button" data-bs-toggle="collapse" data-bs-target="#employee-table" aria-expanded="false"
+					aria-controls="employee-table">
+					View My Reimbursment Requests</button>
 			</div>
 		</div>
-		<div id="past-table" class="collapse multi-collapse">
+		<div id="employee-table" class="collapse multi-collapse">
+			<div class="row justify-content-center">
+				<div class="col-3 text-center">
+					<label class="form-label h4">Status</label>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-sm-auto">
+					<div class="form-check form-switch text-start">
+						<input class="form-check-input" type="checkbox" id="employee-approved" checked>
+						<label class="form-check-label" for="employee-approved">Approved</label>
+					</div>
+				</div>
+				<div class="col-sm-auto">
+					<div class="form-check form-switch text-start">
+						<input class="form-check-input" type="checkbox" id="employee-rejected" checked>
+						<label class="form-check-label" for="employee-rejected">Rejected</label>
+					</div>
+				</div>
+				<div class="col-sm-auto">
+					<div class="form-check form-switch text-start">
+						<input class="form-check-input" type="checkbox" id="employee-pending" checked>
+						<label class="form-check-label" for="employee-pending">Pending</label>
+					</div>
+				</div>
+			</div>
 			<div class="row justify-content-around">
-				<table id="past-reimbursments" class="table table-striped align-middle">
+				<table id="employee-reimbursments" class="table table-striped align-middle">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">ID</th>
@@ -146,34 +172,7 @@
 							<th scope="col">Status</th>
 						</tr>
 					</thead>
-					<tbody id="past-table-body">
-
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row justify-content-around">
-			<div class="d-grid gap-2 col-6 mx-auto">
-				<button id="view-pending" class="btn btn-secondary btn-lg" data-toggle="collapse" type="button"
-					data-bs-toggle="collapse" data-bs-target="#pending-table" aria-expanded="false"
-					aria-controls="pending-table">
-					View My Pending Reimbursment Requests</button>
-			</div>
-		</div>
-
-		<div id="pending-table" class="collapse multi-collapse">
-			<div class="row justify-content-around">
-				<table id="pending-reimbursments" class="table table-striped align-middle">
-					<thead class="">
-						<tr>
-							<th scope="col">ID</th>
-							<th scope="col">Type</th>
-							<th scope="col">Amount</th>
-							<th scope="col">Description</th>
-							<th scope="col">Status</th>
-						</tr>
-					</thead>
-					<tbody id="pending-table-body">
+					<tbody id="employee-table-body">
 
 					</tbody>
 				</table>
@@ -192,40 +191,27 @@
 			<div id="all-table" class="collapse multi-collapse">
 				<div class="row justify-content-center">
 					<div class="col-3 text-center">
-						<label class="form-label h4">Reimbursment Type</label>
+						<label class="form-label h4">Status</label>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-sm-auto">
 						<div class="form-check form-switch text-start">
-							<input class="form-check-input" type="checkbox" id="all-travel">
-							<label class="form-check-label" for="manager-travel">Travel</label>
-						</div>
-						<div class="form-check form-switch text-start">
-							<input class="form-check-input" type="checkbox" id="all-lodging">
-							<label class="form-check-label" for="manager-lodging">Lodging</label>
-						</div>
-						<div class="form-check form-switch text-start">
-							<input class="form-check-input" type="checkbox" id="all-food">
-							<label class="form-check-label" for="manager-food">Food</label>
-						</div>
-						<div class="form-check form-switch text-start">
-							<input class="form-check-input" type="checkbox" id="all-other">
-							<label class="form-check-label" for="manager-other">Other</label>
+							<input class="form-check-input" type="checkbox" id="all-approved" checked>
+							<label class="form-check-label" for="manager-approved">Approved</label>
 						</div>
 					</div>
-					<div class="col-3 text-center">
-						<form>
-							<label class="form-label h4">Status</label>
-							<div class="form-check form-switch text-start">
-								<input class="form-check-input" type="checkbox" id="all-approved" checked>
-								<label class="form-check-label" for="manager-approved">Approved</label>
-							</div>
-							<div class="form-check form-switch text-start">
-								<input class="form-check-input" type="checkbox" id="all-rejected" checked>
-								<label class="form-check-label" for="manager-rejected">Rejected</label>
-							</div>
-							<div class="form-check form-switch text-start">
-								<input class="form-check-input" type="checkbox" id="all-pending" checked>
-								<label class="form-check-label" for="manager-pending">Pending</label>
-							</div>
-						</form>
+					<div class="col-sm-auto">
+						<div class="form-check form-switch text-start">
+							<input class="form-check-input" type="checkbox" id="all-rejected" checked>
+							<label class="form-check-label" for="manager-rejected">Rejected</label>
+						</div>
+					</div>
+					<div class="col-sm-auto">
+						<div class="form-check form-switch text-start">
+							<input class="form-check-input" type="checkbox" id="all-pending" checked>
+							<label class="form-check-label" for="manager-pending">Pending</label>
+						</div>
 					</div>
 				</div>
 				<div class="row justify-content-around">
@@ -234,6 +220,7 @@
 							<thead class="thead-light">
 								<tr>
 									<th scope="col">ID</th>
+									<th scope="col">Name</th>
 									<th scope="col">Type</th>
 									<th scope="col">Amount</th>
 									<th scope="col">Description</th>
