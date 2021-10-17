@@ -9,8 +9,7 @@ public interface RequestDAO {
 
 	Request selectRequestById(int id);
 	List<Request> selectAllRequests();
-	List<Request> selectRequestByUsernameAndStatus(String username, ReimbursementStatus status);
-	List<Request> selectPastRequestByUsername(String username);
+	List<Request> selectRequestByUsername(String username);
 	boolean updateRequestStatus(int id, ReimbursementStatus status);
 	boolean insertRequest(String username, ReimbursementType type, double amount, String description);
 	boolean deleteRequest(int id);

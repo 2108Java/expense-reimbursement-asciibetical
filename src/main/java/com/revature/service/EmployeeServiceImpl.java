@@ -1,7 +1,6 @@
 package com.revature.service;
 
 import java.util.List;
-import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 import com.revature.models.Request;
 import com.revature.models.User;
@@ -15,7 +14,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -36,18 +34,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public boolean authenticate(String username, String password) {
-		String encryptedPass = encryptPassword(password);
 		boolean authenticated = false;
-		List<User> allUsers = uDao.selectAllUsers();
-
-		for (User user : allUsers) {
-			if (user.getUsername().equals(username)) {
-				if (user.getPassword().equals(encryptedPass)) {
-					authenticated = true;
-					break;
-				}
+		
+		User current = login(username);
+		
+		if(current != null) {
+			String decryptedPass = decryptPassword(current.getPassword());
+			if(password.equals(decryptedPass)) {
+				authenticated = true;
 			}
+			
 		}
+		
+		
 		return authenticated;
 	}
 
@@ -74,13 +73,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Request> viewPendingRequests(String username) {
-		return rDao.selectRequestByUsernameAndStatus(username, ReimbursementStatus.PENDING);
-	}
-
-	@Override
-	public List<Request> viewPastRequests(String username) {
-		return rDao.selectPastRequestByUsername(username);
+	public List<Request> viewEmployeeRequests(String username) {
+		return rDao.selectRequestByUsername(username);
 	}
 
 	@Override
@@ -103,7 +97,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	private String encryptPassword(String password) {
-		return Base64.getEncoder().encode(password.getBytes()).toString();
+		String encodedString = Base64.getEncoder().encodeToString(password.getBytes());
+		return encodedString;
+		
+	}
+	
+	private String decryptPassword(String password) {
+		byte[] decodedBytes = Base64.getDecoder().decode(password);
+		String decodedString = new String(decodedBytes);
+		return decodedString;
 	}
 
 	private static String generateRandomPassword() {
