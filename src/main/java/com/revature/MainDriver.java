@@ -19,7 +19,6 @@ public class MainDriver {
 		}).start(9000);
 
 		RequestHandler.setUpEndpoints(app);
-		reimbursementLog.info("Application Closed!");
 	}
 
 }
