@@ -57,14 +57,13 @@ approvedEmployeeToggle.addEventListener('change', function () { filterEmployeeTa
 rejectedEmployeeToggle.addEventListener('change', function () { filterEmployeeTable(employeeRequests); });
 
 function logoutUser(){
-	fetch(BASE_URL + 'logout',{method: 'GET'})
+	fetch(BASE_URL + 'logout')
 }
 
 function updatePassword() {
-	console.log("Hello?");
 	let newpassword = document.getElementById("newpassword").value;
 	let pass2 = document.getElementById("newpass2").value;
-	if (newpassword == pass2) {
+	if (newpassword = pass2) {
 		fetch(BASE_URL + 'user', {
 			method: 'PUT',
 			headers: { 'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json' },

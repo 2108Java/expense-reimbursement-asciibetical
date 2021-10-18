@@ -8,16 +8,20 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
 import com.revature.models.Request;
 import com.revature.util.ConnectionFactory;
 
 public class RequestDAOImpl implements RequestDAO {
+	final Logger reimbursementLog = Logger.getLogger(RequestDAOImpl.class);
 
 	@Override
 	public Request selectRequestById(int id) {
-
+		reimbursementLog.info("Selecting request by id");
 		String sql = "SELECT * FROM reimbursement WHERE id = ?";
 		Request selectedRequestById = new Request();
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -36,9 +40,11 @@ public class RequestDAOImpl implements RequestDAO {
 						ReimbursementStatus.valueOf(rs.getString("status")));
 
 			}
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 
 		return selectedRequestById;
@@ -47,7 +53,7 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public List<Request> selectAllRequests() {
-
+		reimbursementLog.info("Selecting all requests");
 		String sql = "SELECT * FROM reimbursement";
 		List<Request> allRequests = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -64,9 +70,11 @@ public class RequestDAOImpl implements RequestDAO {
 						ReimbursementStatus.valueOf(rs.getString("status"))));
 
 			}
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 
 		return allRequests;
@@ -74,6 +82,7 @@ public class RequestDAOImpl implements RequestDAO {
 
 	@Override
 	public List<Request> selectRequestByUsername(String username) {
+		reimbursementLog.info("Selecting request by username");
 		String sql = "SELECT * FROM reimbursement WHERE user_username_fk = ?";
 		List<Request> employeeRequests = new ArrayList<Request>();
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -90,17 +99,20 @@ public class RequestDAOImpl implements RequestDAO {
 						ReimbursementType.valueOf(rs.getString("reimbursement_type")), rs.getDouble("amount"),
 						rs.getString("description"), rs.getTimestamp("time_of_request"),
 						ReimbursementStatus.valueOf(rs.getString("status"))));
- 
+
 			}
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 		return employeeRequests;
 	}
 
 	@Override
 	public boolean updateRequestStatus(int id, ReimbursementStatus status) {
+		reimbursementLog.info("Updateing Status");
 		boolean success = false;
 		String sql = "UPDATE reimbursement SET status = ?::reimbursement_status WHERE id = ?;";
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -114,16 +126,18 @@ public class RequestDAOImpl implements RequestDAO {
 			confirmUpdate.setInt(1, id);
 			confirmUpdate.setString(2, status.name());
 			success = confirmUpdate.execute();
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 		return success;
 	}
 
 	@Override
 	public boolean insertRequest(String username, ReimbursementType type, double amount, String description) {
-
+		reimbursementLog.info("Insert Request");
 		boolean success = false;
 		Timestamp timeOfRequest = Timestamp.valueOf(LocalDateTime.now());
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -144,15 +158,18 @@ public class RequestDAOImpl implements RequestDAO {
 			confirmInsert.setString(1, username);
 			confirmInsert.setTimestamp(2, timeOfRequest);
 			success = confirmInsert.execute();
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 		return success;
 	}
 
 	@Override
 	public boolean deleteRequest(int id) {
+		reimbursementLog.info("Delete Request");
 		boolean success = false;
 		String sql = "DELETE FROM reimbursement WHERE id =?;";
 		try (Connection conn = ConnectionFactory.getConnection()) {
@@ -164,9 +181,11 @@ public class RequestDAOImpl implements RequestDAO {
 			PreparedStatement confirmDelete = conn.prepareStatement(sql);
 			confirmDelete.setInt(1, id);
 			success = !(confirmDelete.execute());
+			reimbursementLog.info("Success");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			reimbursementLog.warn("Failed");
 		}
 		return success;
 	}

@@ -1,11 +1,17 @@
 let financeManagerDiv = document.getElementById("finance-manager-options");
 let requestSubmit = document.getElementById('request-submit');
 let statusSubmit = document.getElementById('status-submit');
+let passwordSubmit = document.getElementById('password-submit');
+let logoutSubmit = document.getElementById('logout-submit');
 let welcomeUser = document.getElementById('welcome-user');
 let pendingToggle = document.getElementById('all-pending');
 let approvedToggle = document.getElementById('all-approved');
 let rejectedToggle = document.getElementById('all-rejected');
+let pendingEmployeeToggle = document.getElementById('employee-pending');
+let approvedEmployeeToggle = document.getElementById('employee-approved');
+let rejectedEmployeeToggle = document.getElementById('employee-rejected');
 let allRequests = [];
+let employeeRequests = [];
 const BASE_URL = "http://localhost:9000/";
 const getCookieValue = (name) => (
 	document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
@@ -34,22 +40,37 @@ async function startup() {
 	} else {
 		financeManagerDiv.style.display = "none";
 	}
-
+	employeeRequests = await getEmployeeRequests();
+	populateEmployeeTable(employeeRequests);
 	welcomeUser.innerText = "Welcome, " + username + "!";
-}
-
-window.onload = function() {
-
-
-	getPastRequests();
-	getPendingRequests();
 }
 
 requestSubmit.addEventListener('click', createNewRequest);
 statusSubmit.addEventListener('click', approveOrDenyRequest);
-pendingToggle.addEventListener('change', function() { filterAllTable(allRequests); });
-approvedToggle.addEventListener('change', function() { filterAllTable(allRequests); });
-rejectedToggle.addEventListener('change', function() { filterAllTable(allRequests); });
+passwordSubmit.addEventListener('click', updatePassword);
+logoutSubmit.addEventListener('click', logoutUser);
+pendingToggle.addEventListener('change', function () { filterAllTable(allRequests); });
+approvedToggle.addEventListener('change', function () { filterAllTable(allRequests); });
+rejectedToggle.addEventListener('change', function () { filterAllTable(allRequests); });
+pendingEmployeeToggle.addEventListener('change', function () { filterEmployeeTable(employeeRequests); });
+approvedEmployeeToggle.addEventListener('change', function () { filterEmployeeTable(employeeRequests); });
+rejectedEmployeeToggle.addEventListener('change', function () { filterEmployeeTable(employeeRequests); });
+
+function logoutUser(){
+	fetch(BASE_URL + 'logout')
+}
+
+function updatePassword() {
+	let newpassword = document.getElementById("newpassword").value;
+	let pass2 = document.getElementById("newpass2").value;
+	if (newpassword = pass2) {
+		fetch(BASE_URL + 'user', {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json' },
+			body: 'newpassword=' + newpassword
+		})
+	}
+}
 
 function createNewRequest() {
 	let amount = document.getElementById('request-amount').value;
@@ -74,106 +95,96 @@ function createNewRequest() {
 			body: 'amount=' + amount + '&description=' + description + '&type=' + type
 		})
 	}
-
-
-	console.log(body);;
 }
 
-function getPastRequests() {
-	fetch(BASE_URL + "past")		.then(response => response.json())		.then(data => populatePastTable(data));
+async function getEmployeeRequests() {
+
+	const employeeResponse = await fetch(BASE_URL + "employee");
+
+	return employeeResponse.json();
+
 }
 
-function addPastRow(request) {
-	let pastTableBody = document.getElementById("past-table-body");
-	let tableRow = document.createElement("tr");
+function addEmployeeRow(request) {
+
+	let employeeTableBody = document.getElementById("employee-table-body");
+
+	let tableRow = document.createElement("tr");
+
 	let idColumn = document.createElement("td");
 	let typeColumn = document.createElement("td");
 	let amountColumn = document.createElement("td");
 	let descColumn = document.createElement("td");
-	let statusColumn = document.createElement("td");
+	let statusColumn = document.createElement("td");
+
 	idColumn.innerText = request.id;
 	typeColumn.innerText = request.type;
 	amountColumn.innerText = formatter.format(request.amount);
 	descColumn.innerText = request.description;
-	statusColumn.innerText = request.status;
+	statusColumn.innerText = request.status;
+
 	tableRow.appendChild(idColumn);
 	tableRow.appendChild(typeColumn);
 	tableRow.appendChild(amountColumn);
 	tableRow.appendChild(descColumn);
-	tableRow.appendChild(statusColumn);
-	pastTableBody.appendChild(tableRow);
+	tableRow.appendChild(statusColumn);
+
+	employeeTableBody.appendChild(tableRow);
 }
 
-function populatePastTable(requestArray) {
+function populateEmployeeTable(requestArray) {
+
 	for (let request of requestArray) {
-		addPastRow(request);
+		addEmployeeRow(request);
 	}
 }
 
-function getPendingRequests() {
-	fetch(BASE_URL + "pending")		.then(response => response.json())		.then(data => populatePendingTable(data));
-}
+async function getAllRequests() {
 
-function addPendingRow(request) {
-	let pendingTableBody = document.getElementById("pending-table-body");
-	let tableRow = document.createElement("tr");
-	let idColumn = document.createElement("td");
-	let typeColumn = document.createElement("td");
-	let amountColumn = document.createElement("td");
-	let descColumn = document.createElement("td");
-	let statusColumn = document.createElement("td");
-	idColumn.innerText = request.id;
-	typeColumn.innerText = request.type;
-	amountColumn.innerText = formatter.format(request.amount);
-	descColumn.innerText = request.description;
-	statusColumn.innerText = request.status;
-	tableRow.appendChild(idColumn);
-	tableRow.appendChild(typeColumn);
-	tableRow.appendChild(amountColumn);
-	tableRow.appendChild(descColumn);
-	tableRow.appendChild(statusColumn);
-	pendingTableBody.appendChild(tableRow);
-}
+	const response = await fetch(BASE_URL + "all");
 
-function populatePendingTable(requestArray) {
-	for (let request of requestArray) {
-		addPendingRow(request);
-	}
-}
-
-async function getAllRequests() {
-	const response = await fetch(BASE_URL + "all");
 	return response.json();
 }
 
-function addAllRow(request) {
-	let allTableBody = document.getElementById("all-table-body");
-	let tableRow = document.createElement("tr");
+function addAllRow(request) {
+
+	let allTableBody = document.getElementById("all-table-body");
+
+	let tableRow = document.createElement("tr");
+
 	let idColumn = document.createElement("td");
+	let nameColumn = document.createElement("td");
 	let typeColumn = document.createElement("td");
 	let amountColumn = document.createElement("td");
 	let descColumn = document.createElement("td");
-	let statusColumn = document.createElement("td");
+	let statusColumn = document.createElement("td");
+
 	idColumn.innerText = request.id;
+	nameColumn.innerText = request.username;
 	typeColumn.innerText = request.type;
 	amountColumn.innerText = formatter.format(request.amount);
 	descColumn.innerText = request.description;
-	statusColumn.innerText = request.status;
+	statusColumn.innerText = request.status;
+
 	tableRow.appendChild(idColumn);
+	tableRow.appendChild(nameColumn)
 	tableRow.appendChild(typeColumn);
 	tableRow.appendChild(amountColumn);
 	tableRow.appendChild(descColumn);
-	tableRow.appendChild(statusColumn);
+	tableRow.appendChild(statusColumn);
+
 	allTableBody.appendChild(tableRow);
 }
 
-function populateAllTable(requestArray) {
+function populateAllTable(requestArray) {
+
 	for (let request of requestArray) {
 		addAllRow(request);
 	}
 }
 
-function resetTable() {
+function resetTable() {
+
 	let allTableBody = document.getElementById("all-table-body");
 	allTableBody.innerHTML = "";
 }
@@ -186,7 +197,8 @@ function filterAllTable(requestArray) {
 			if (request.status == "PENDING") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
 	else if (!pendingToggle.checked && approvedToggle.checked && !rejectedToggle.checked) {
@@ -194,7 +206,8 @@ function filterAllTable(requestArray) {
 			if (request.status == "APPROVED") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
 	else if (!pendingToggle.checked && !approvedToggle.checked && rejectedToggle.checked) {
@@ -202,7 +215,8 @@ function filterAllTable(requestArray) {
 			if (request.status == "REJECTED") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
 	else if (pendingToggle.checked && approvedToggle.checked && !rejectedToggle.checked) {
@@ -210,7 +224,8 @@ function filterAllTable(requestArray) {
 			if (request.status == "APPROVED" || request.status == "PENDING") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
 	else if (!pendingToggle.checked && approvedToggle.checked && rejectedToggle.checked) {
@@ -218,18 +233,22 @@ function filterAllTable(requestArray) {
 			if (request.status == "APPROVED" || request.status == "REJECTED") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
-	else if (pendingToggle.checked && !approvedToggle.checked && rejectedToggle.checked) {
+	else if (pendingToggle.checked && !approvedToggle.checked && rejectedToggle.checked) {
+
 		for (let request of requestArray) {
 			if (request.status == "REJECTED" || request.status == "PENDING") {
 				newArray.push(request);
 			}
-		}
+		}
+
 		populateAllTable(newArray);
 	}
-	else if (pendingToggle.checked && approvedToggle.checked && rejectedToggle.checked) {
+	else if (pendingToggle.checked && approvedToggle.checked && rejectedToggle.checked) {
+
 		populateAllTable(requestArray);
 	}
 	else {
@@ -237,15 +256,93 @@ function filterAllTable(requestArray) {
 	}
 }
 
+function filterEmployeeTable(requestArray) {
+	let employeeArray = [];
+	resetEmployeeTable();
+	if (pendingEmployeeToggle.checked && !approvedEmployeeToggle.checked && !rejectedEmployeeToggle.checked) {
+		for (let request of requestArray) {
+			if (request.status == "PENDING") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (!pendingEmployeeToggle.checked && approvedEmployeeToggle.checked && !rejectedEmployeeToggle.checked) {
+		for (let request of requestArray) {
+			if (request.status == "APPROVED") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (!pendingEmployeeToggle.checked && !approvedEmployeeToggle.checked && rejectedEmployeeToggle.checked) {
+		for (let request of requestArray) {
+			if (request.status == "REJECTED") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (pendingEmployeeToggle.checked && approvedEmployeeToggle.checked && !rejectedEmployeeToggle.checked) {
+		for (let request of requestArray) {
+			if (request.status == "APPROVED" || request.status == "PENDING") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (!pendingEmployeeToggle.checked && approvedEmployeeToggle.checked && rejectedEmployeeToggle.checked) {
+		for (let request of requestArray) {
+			if (request.status == "APPROVED" || request.status == "REJECTED") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (pendingEmployeeToggle.checked && !approvedEmployeeToggle.checked && rejectedEmployeeToggle.checked) {
+
+		for (let request of requestArray) {
+			if (request.status == "REJECTED" || request.status == "PENDING") {
+				employeeArray.push(request);
+			}
+		}
+
+		populateEmployeeTable(employeeArray);
+	}
+	else if (pendingEmployeeToggle.checked && approvedEmployeeToggle.checked && rejectedEmployeeToggle.checked) {
+
+		populateEmployeeTable(requestArray);
+	}
+	else {
+		populateEmployeeTable(requestArray);
+	}
+}
+
+function resetEmployeeTable() {
+
+	let employeeTableBody = document.getElementById("employee-table-body");
+	employeeTableBody.innerHTML = "";
+}
+
 function approveOrDenyRequest() {
 	let id = document.getElementById('request-id').value;
-	let status = "";
+	let status = "";
+
 	if (document.getElementById('approved').checked) {
 		status = "APPROVED";
 	}
 	else {
 		status = "REJECTED";
-	}
-	fetch(BASE_URL + 'request', {		method: 'PUT',		headers: { 'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json' },		body: 'id=' + id + '&status=' + status
+	}
+
+	fetch(BASE_URL + 'request', {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/x-www-form-url-encoded', 'Accept': 'application/json' },
+		body: 'id=' + id + '&status=' + status
 	})
 }

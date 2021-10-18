@@ -35,7 +35,7 @@ public class RequestHandler {
 			ctx.consumeSessionAttribute("isLoggedIn");
 			ctx.removeCookie("username");
 			ctx.removeCookie("isFinanceManager");
-			ctx.redirect(BASE_URL);
+			ctx.res.sendRedirect(BASE_URL);
 		});
 
 //		app.get("/user", ctx -> {
